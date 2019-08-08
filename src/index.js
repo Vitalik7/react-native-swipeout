@@ -15,6 +15,7 @@ import {
   Text,
   View,
   ViewPropTypes,
+  Platform,
 } from 'react-native';
 
 const SwipeoutBtn = createReactClass({
@@ -366,14 +367,23 @@ const Swipeout = createReactClass({
         right: 0,
       },
     };
-    var styleContentPos = {
+    var styleContentPosIos = {
       content: {
         transform: [{ translateX: this._rubberBandEasing(posX, limit) }],
       },
     };
+    var styleContentPosAndroid = {
+      content: {
+        left: this._rubberBandEasing(posX, limit),
+      },
+    };
 
     var styleContent = [styles.swipeoutContent];
-    styleContent.push(styleContentPos.content);
+    if (Platform.OS == 'ios') {
+      styleContent.push(styleContentPosIos.content);
+    } else {
+      styleContent.push(styleContentPosAndroid.content);
+    }
 
     var styleRight = [styles.swipeoutBtns];
     styleRight.push(styleRightPos.right);
